@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Super Stories Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #ede8df;
+      --accent: #c8b88a;
+      --gray: #6b6560;
+      --light-gray: #9a948d;
+      --dark-gray: #2a2725;
+      --red: #a85751;
+      --green: #7a9a6d;
+      --serif: 'EB Garamond', Georgia, serif;
+      --sans: 'DM Sans', Helvetica, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--black); color: var(--white); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    .admin-header {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--dark-gray);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px); z-index: 100;
+    }
+    .admin-header h1 { font-family: var(--serif); font-size: 22px; font-weight: 500; }
+    .admin-header-actions { display: flex; gap: 12px; align-items: center; }
+    .admin-header a { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .admin-wrap { max-width: 800px; margin: 0 auto; padding: 32px; }
+
+    .section-group { margin-bottom: 8px; border: 1px solid var(--dark-gray); }
+    .section-header {
+      padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      background: var(--dark-gray); user-select: none;
+    }
+    .section-header h2 { font-family: var(--serif); font-size: 18px; font-weight: 400; }
+    .section-header .arrow { color: var(--accent); font-size: 14px; transition: transform 0.2s; }
+    .section-header.open .arrow { transform: rotate(180deg); }
+    .section-body { padding: 20px; display: none; }
+    .section-body.open { display: block; }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); display: block; margin-bottom: 6px;
+    }
+    .field input, .field textarea {
+      width: 100%; padding: 10px 14px; background: var(--black); border: 1px solid rgba(107,101,96,0.3);
+      color: var(--white); font-family: var(--sans); font-size: 14px; outline: none; border-radius: 0;
+      transition: border-color 0.2s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field textarea { resize: vertical; min-height: 80px; }
+
+    .array-group { margin-bottom: 24px; }
+    .array-group > label {
+      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); display: block; margin-bottom: 12px;
+    }
+    .array-item {
+      background: rgba(42,39,37,0.5); border: 1px solid rgba(107,101,96,0.15);
+      padding: 16px; margin-bottom: 8px; position: relative;
+    }
+    .array-item .field { margin-bottom: 12px; }
+    .array-item .field:last-child { margin-bottom: 0; }
+    .btn-remove {
+      position: absolute; top: 8px; right: 8px; background: none; border: none;
+      color: var(--red); font-size: 11px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: var(--sans);
+    }
+    .btn-add {
+      background: none; border: 1px dashed rgba(107,101,96,0.3); color: var(--light-gray);
+      font-size: 12px; padding: 10px; width: 100%; cursor: pointer; font-family: var(--sans);
+      letter-spacing: 0.1em; text-transform: uppercase; transition: border-color 0.2s;
+    }
+    .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-save {
+      font-family: var(--sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); background: var(--accent); border: none; padding: 14px 36px;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .save-bar {
+      position: sticky; bottom: 0; padding: 16px 32px;
+      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--dark-gray);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .save-status { font-size: 13px; color: var(--light-gray); }
+    .save-status.success { color: var(--green); }
+    .save-status.error { color: var(--red); }
+
+    .string-array-item {
+      display: flex; gap: 8px; margin-bottom: 6px; align-items: center;
+    }
+    .string-array-item input { flex: 1; }
+    .string-array-item .btn-remove-inline {
+      background: none; border: none; color: var(--red); font-size: 18px; cursor: pointer;
+      padding: 0 4px; flex-shrink: 0; font-family: var(--sans);
+    }
+
+    .lang-tabs { display: flex; gap: 0; margin-bottom: 24px; }
+    .lang-tab {
+      font-family: var(--sans); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 24px; background: none; border: 1px solid var(--dark-gray); color: var(--gray);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .lang-tab:first-child { border-right: none; }
+    .lang-tab.active { background: var(--dark-gray); color: var(--accent); }
+    .lang-tab:hover:not(.active) { color: var(--light-gray); }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <h1>Content Editor</h1>
+    <div class="admin-header-actions">
+      <a href="/">Bekijk site</a>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="lang-tabs">
+      <button class="lang-tab active" data-lang="nl" onclick="switchAdminLang('nl')">Nederlands</button>
+      <button class="lang-tab" data-lang="en" onclick="switchAdminLang('en')">English</button>
+    </div>
+    <div id="admin-wrap"></div>
+  </div>
+
+  <div class="save-bar">
+    <span class="save-status" id="save-status"></span>
+    <button class="btn-save" id="save-btn" onclick="saveContent()">Opslaan</button>
+  </div>
+
+  <script>
+    let content = {};
+    let adminLang = 'nl';
+
+    const SECTIONS = [
+      {
+        key: 'nav', label: 'Navigatie',
+        fields: [
+          { key: 'brand_name', label: 'Merknaam', type: 'text' },
+          { key: 'brand_sub', label: 'Subtitel', type: 'text' },
+          { key: 'cta', label: 'CTA knop', type: 'text' }
+        ]
+      },
+      {
+        key: 'hero', label: 'Hero',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'title_highlight', label: 'Titel highlight (accent kleur)', type: 'text' },
+          { key: 'intro', label: 'Introductie', type: 'textarea' },
+          { key: 'btn_primary', label: 'Primaire knop', type: 'text' },
+          { key: 'btn_secondary', label: 'Secundaire knop', type: 'text' }
+        ]
+      },
+      {
+        key: 'pressure_cooker', label: 'Pressure Cooker',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'description', label: 'Beschrijving', type: 'textarea' },
+          { key: 'cards', label: 'Dagdelen', type: 'array', itemFields: [
+            { key: 'time', label: 'Tijdstip', type: 'text' },
+            { key: 'title', label: 'Titel', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'textarea' }
+          ]},
+          { key: 'price_startup', label: 'Prijs startups', type: 'text' },
+          { key: 'price_startup_sub', label: 'Subtekst startups', type: 'text' },
+          { key: 'price_regular', label: 'Prijs regulier', type: 'text' },
+          { key: 'price_regular_sub', label: 'Subtekst regulier', type: 'text' },
+          { key: 'price_detail', label: 'Prijs detail', type: 'text' },
+          { key: 'success_fee', label: 'Success fee', type: 'text' },
+          { key: 'success_fee_sub', label: 'Success fee subtekst', type: 'text' },
+          { key: 'deliverables_header', label: 'Inbegrepen header', type: 'text' },
+          { key: 'deliverables', label: 'Inbegrepen items', type: 'string-array' },
+          { key: 'terms_header', label: 'Voorwaarden header', type: 'text' },
+          { key: 'terms', label: 'Voorwaarden items', type: 'string-array' }
+        ]
+      },
+      {
+        key: 'waarom', label: 'Waarom dit werkt',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'description', label: 'Beschrijving', type: 'textarea' },
+          { key: 'cards', label: 'Pilaren', type: 'array', itemFields: [
+            { key: 'title', label: 'Titel', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'textarea' }
+          ]},
+          { key: 'closing', label: 'Afsluitende tekst', type: 'textarea' }
+        ]
+      },
+      {
+        key: 'wat_krijgt', label: 'Wat je krijgt',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'included_header', label: 'Inbegrepen header', type: 'text' },
+          { key: 'included', label: 'Inbegrepen items', type: 'string-array' },
+          { key: 'excluded_header', label: 'Niet inbegrepen header', type: 'text' },
+          { key: 'excluded', label: 'Niet inbegrepen items', type: 'string-array' }
+        ]
+      },
+      {
+        key: 'together', label: 'Together',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'description', label: 'Beschrijving', type: 'textarea' },
+          { key: 'cards', label: 'Kaarten', type: 'array', itemFields: [
+            { key: 'title', label: 'Titel', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'textarea' }
+          ]}
+        ]
+      },
+      {
+        key: 'doorlopend', label: 'Doorlopend',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'cards', label: 'Diensten', type: 'array', itemFields: [
+            { key: 'title', label: 'Titel', type: 'text' },
+            { key: 'price', label: 'Prijs', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'textarea' },
+            { key: 'note', label: 'Noot (italic)', type: 'textarea' }
+          ]}
+        ]
+      },
+      {
+        key: 'vliegwiel', label: 'Vliegwiel',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'steps', label: 'Stappen', type: 'array', itemFields: [
+            { key: 'number', label: 'Nummer', type: 'text' },
+            { key: 'title', label: 'Titel', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'textarea' }
+          ]}
+        ]
+      },
+      {
+        key: 'cases', label: 'Cases',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'items', label: 'Cases', type: 'array', itemFields: [
+            { key: 'name', label: 'Naam', type: 'text' },
+            { key: 'description', label: 'Beschrijving', type: 'text' },
+            { key: 'tag', label: 'Tag', type: 'text' }
+          ]}
+        ]
+      },
+      {
+        key: 'intake', label: 'Intake',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'description', label: 'Beschrijving', type: 'textarea' },
+          { key: 'submitted_title', label: 'Bevestiging titel', type: 'text' },
+          { key: 'submitted_text', label: 'Bevestiging tekst', type: 'text' }
+        ]
+      },
+      {
+        key: 'faq', label: 'FAQ',
+        fields: [
+          { key: 'label', label: 'Label', type: 'text' },
+          { key: 'title', label: 'Titel', type: 'text' },
+          { key: 'items', label: 'Vragen & Antwoorden', type: 'array', itemFields: [
+            { key: 'question', label: 'Vraag', type: 'text' },
+            { key: 'answer', label: 'Antwoord', type: 'textarea' }
+          ]}
+        ]
+      },
+      {
+        key: 'footer', label: 'Footer',
+        fields: [
+          { key: 'company', label: 'Bedrijf', type: 'text' },
+          { key: 'address', label: 'Adres', type: 'text' },
+          { key: 'kvk', label: 'KvK', type: 'text' },
+          { key: 'vat', label: 'BTW / VAT', type: 'text' },
+          { key: 'email', label: 'E-mail', type: 'text' },
+          { key: 'copyright', label: 'Copyright', type: 'text' },
+          { key: 'tagline', label: 'Tagline', type: 'text' }
+        ]
+      }
+    ];
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    function renderField(sectionKey, field, value) {
+      const id = sectionKey + '.' + field.key;
+      if (field.type === 'text') {
+        return '<div class="field"><label>' + escapeHtml(field.label) + '</label>' +
+          '<input type="text" data-path="' + id + '" value="' + escapeHtml(value || '') + '" /></div>';
+      }
+      if (field.type === 'textarea') {
+        return '<div class="field"><label>' + escapeHtml(field.label) + '</label>' +
+          '<textarea data-path="' + id + '">' + escapeHtml(value || '') + '</textarea></div>';
+      }
+      if (field.type === 'string-array') {
+        const arr = Array.isArray(value) ? value : [];
+        let html = '<div class="array-group" data-string-array="' + id + '">';
+        html += '<label>' + escapeHtml(field.label) + '</label>';
+        arr.forEach(function(item, i) {
+          html += '<div class="string-array-item">';
+          html += '<input type="text" value="' + escapeHtml(item) + '" />';
+          html += '<button type="button" class="btn-remove-inline" onclick="removeStringArrayItem(this)">&times;</button>';
+          html += '</div>';
+        });
+        html += '<button type="button" class="btn-add" onclick="addStringArrayItem(this.parentElement)">+ Toevoegen</button>';
+        html += '</div>';
+        return html;
+      }
+      if (field.type === 'array') {
+        const arr = Array.isArray(value) ? value : [];
+        let html = '<div class="array-group" data-array="' + id + '" data-item-fields=\'' + JSON.stringify(field.itemFields) + '\'>';
+        html += '<label>' + escapeHtml(field.label) + '</label>';
+        arr.forEach(function(item, i) {
+          html += renderArrayItem(id, field.itemFields, item, i);
+        });
+        html += '<button type="button" class="btn-add" onclick="addArrayItem(this.parentElement)">+ Toevoegen</button>';
+        html += '</div>';
+        return html;
+      }
+      return '';
+    }
+
+    function renderArrayItem(arrayPath, itemFields, item, index) {
+      let html = '<div class="array-item">';
+      html += '<button type="button" class="btn-remove" onclick="this.parentElement.remove()">Verwijder</button>';
+      itemFields.forEach(function(f) {
+        const val = item ? (item[f.key] || '') : '';
+        if (f.type === 'textarea') {
+          html += '<div class="field"><label>' + escapeHtml(f.label) + '</label>' +
+            '<textarea data-field-key="' + f.key + '">' + escapeHtml(val) + '</textarea></div>';
+        } else {
+          html += '<div class="field"><label>' + escapeHtml(f.label) + '</label>' +
+            '<input type="text" data-field-key="' + f.key + '" value="' + escapeHtml(val) + '" /></div>';
+        }
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function addStringArrayItem(container) {
+      const div = document.createElement('div');
+      div.className = 'string-array-item';
+      div.innerHTML = '<input type="text" value="" /><button type="button" class="btn-remove-inline" onclick="removeStringArrayItem(this)">&times;</button>';
+      container.insertBefore(div, container.querySelector('.btn-add'));
+      div.querySelector('input').focus();
+    }
+
+    function removeStringArrayItem(btn) {
+      btn.parentElement.remove();
+    }
+
+    function addArrayItem(container) {
+      const itemFields = JSON.parse(container.getAttribute('data-item-fields'));
+      const div = document.createElement('div');
+      div.innerHTML = renderArrayItem('', itemFields, null, 0);
+      container.insertBefore(div.firstElementChild, container.querySelector('.btn-add'));
+    }
+
+    function collectContent() {
+      const result = {};
+      SECTIONS.forEach(function(section) {
+        result[section.key] = {};
+        section.fields.forEach(function(field) {
+          const path = section.key + '.' + field.key;
+          if (field.type === 'text' || field.type === 'textarea') {
+            const el = document.querySelector('[data-path="' + path + '"]');
+            if (el) result[section.key][field.key] = el.value;
+          } else if (field.type === 'string-array') {
+            const container = document.querySelector('[data-string-array="' + path + '"]');
+            if (container) {
+              const items = [];
+              container.querySelectorAll('.string-array-item input').forEach(function(input) {
+                if (input.value.trim()) items.push(input.value);
+              });
+              result[section.key][field.key] = items;
+            }
+          } else if (field.type === 'array') {
+            const container = document.querySelector('[data-array="' + path + '"]');
+            if (container) {
+              const items = [];
+              container.querySelectorAll('.array-item').forEach(function(itemEl) {
+                const obj = {};
+                itemEl.querySelectorAll('[data-field-key]').forEach(function(input) {
+                  obj[input.getAttribute('data-field-key')] = input.value;
+                });
+                items.push(obj);
+              });
+              result[section.key][field.key] = items;
+            }
+          }
+        });
+      });
+      return result;
+    }
+
+    async function saveContent() {
+      const btn = document.getElementById('save-btn');
+      const status = document.getElementById('save-status');
+      btn.disabled = true;
+      btn.textContent = 'Opslaan...';
+      status.textContent = '';
+      status.className = 'save-status';
+
+      const data = collectContent();
+
+      try {
+        const res = await fetch('/api/content?lang=' + adminLang, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('Server error');
+        const langLabel = adminLang === 'nl' ? 'NL' : 'EN';
+        status.textContent = 'Opgeslagen (' + langLabel + ')!';
+        status.className = 'save-status success';
+        content = data;
+      } catch (e) {
+        status.textContent = 'Opslaan mislukt.';
+        status.className = 'save-status error';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Opslaan';
+      setTimeout(function() { status.textContent = ''; }, 3000);
+    }
+
+    async function switchAdminLang(lang) {
+      adminLang = lang;
+      document.querySelectorAll('.lang-tab').forEach(function(tab) {
+        tab.classList.toggle('active', tab.getAttribute('data-lang') === lang);
+      });
+      try {
+        const res = await fetch('/api/content?lang=' + lang);
+        if (res.ok) content = await res.json();
+      } catch (e) {}
+      renderAdmin();
+    }
+
+    function renderAdmin() {
+      const wrap = document.getElementById('admin-wrap');
+      let html = '';
+      SECTIONS.forEach(function(section, i) {
+        html += '<div class="section-group">';
+        html += '<div class="section-header' + (i === 0 ? ' open' : '') + '" onclick="toggleSection(this)">';
+        html += '<h2>' + escapeHtml(section.label) + '</h2>';
+        html += '<span class="arrow">&#9660;</span>';
+        html += '</div>';
+        html += '<div class="section-body' + (i === 0 ? ' open' : '') + '">';
+        const sectionData = content[section.key] || {};
+        section.fields.forEach(function(field) {
+          html += renderField(section.key, field, sectionData[field.key]);
+        });
+        html += '</div></div>';
+      });
+      wrap.innerHTML = html;
+    }
+
+    function toggleSection(header) {
+      header.classList.toggle('open');
+      header.nextElementSibling.classList.toggle('open');
+    }
+
+    // Load content and render
+    (async function() {
+      try {
+        const res = await fetch('/api/content?lang=' + adminLang);
+        if (res.ok) content = await res.json();
+      } catch (e) {}
+      renderAdmin();
+    })();
+  </script>
+
+</body>
+</html>

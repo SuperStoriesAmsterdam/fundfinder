@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback — Fundfinder bij Super Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #ede8df;
+      --accent: #c8b88a;
+      --gray: #6b6560;
+      --light-gray: #9a948d;
+      --dark-gray: #2a2725;
+      --red: #a85751;
+      --green: #7a9a6d;
+      --serif: 'EB Garamond', Georgia, serif;
+      --sans: 'DM Sans', Helvetica, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    ::selection { background: rgba(200, 184, 138, 0.25); color: var(--white); }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      padding: 20px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--dark-gray);
+      max-width: 960px; margin: 0 auto;
+    }
+    .nav-brand { display: flex; align-items: baseline; gap: 10px; }
+    .nav-brand-name { font-family: var(--serif); font-size: 20px; font-weight: 500; color: var(--white); letter-spacing: 0.02em; }
+    .nav-brand-sub { font-family: var(--sans); font-size: 9px; font-weight: 400; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; }
+    .nav-back { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+
+    .section { padding: 80px 32px; }
+    .section-inner { max-width: 640px; margin: 0 auto; }
+    .label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .heading { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 400; color: var(--white); line-height: 1.25; margin-bottom: 16px; }
+    .body-text { font-size: 15px; line-height: 1.7; color: var(--light-gray); margin-bottom: 48px; }
+
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 8px; }
+    .form-label-optional { color: var(--gray); }
+    .form-input {
+      width: 100%; padding: 12px 16px;
+      background: var(--dark-gray); border: 1px solid rgba(107,101,96,0.25); color: var(--white);
+      font-family: var(--sans); font-size: 14px; outline: none; border-radius: 0;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--gray); }
+    select.form-input { appearance: none; cursor: pointer; }
+    select.form-input option { background: var(--dark-gray); color: var(--white); }
+    textarea.form-input { resize: vertical; }
+
+    .dropzone {
+      border: 2px dashed rgba(107,101,96,0.25); padding: 32px 24px;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .dropzone.active { border-color: var(--accent); background: rgba(200,184,138,0.03); }
+    .dropzone p { font-size: 14px; color: var(--light-gray); margin-bottom: 8px; }
+    .dropzone .hint { font-size: 11px; color: var(--gray); margin-bottom: 0; }
+    .file-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px; background: var(--dark-gray); font-size: 12px; margin-top: 6px;
+    }
+    .file-item span { color: var(--cream); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
+    .file-remove { color: var(--red); cursor: pointer; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; }
+
+    .btn-submit {
+      font-family: var(--sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); background: var(--accent); border: none; padding: 16px 40px;
+      cursor: pointer; margin-top: 16px; transition: opacity 0.2s;
+    }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-error {
+      background: rgba(168, 87, 81, 0.15); border: 1px solid var(--red);
+      padding: 14px 18px; font-size: 14px; color: var(--red); margin-top: 12px; display: none;
+    }
+
+    .submitted { text-align: center; }
+    .submitted h2 { font-family: var(--serif); font-size: 36px; color: var(--white); margin-bottom: 16px; }
+    .submitted p { font-size: 15px; color: var(--light-gray); line-height: 1.7; }
+
+    .footer {
+      padding: 40px 32px; border-top: 1px solid var(--dark-gray);
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 960px; margin: 0 auto; flex-wrap: wrap; gap: 16px;
+    }
+    .footer span { font-size: 11px; color: var(--gray); letter-spacing: 0.05em; }
+
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="nav-brand-name">Fundfinder</span>
+      <span class="nav-brand-sub">bij Super Stories</span>
+    </div>
+    <a href="/" class="nav-back">Terug naar home</a>
+  </nav>
+
+  <section class="section">
+    <div class="section-inner">
+      <p class="label">Feedback</p>
+      <h2 class="heading">Deel je feedback.</h2>
+      <p class="body-text">Heb je contact gehad met een fonds of subsidieverstrekker? Deel je ervaring hieronder. Elke interactie maakt ons systeem — en je volgende aanvraag — sterker.</p>
+
+      <form id="feedback-form" style="display:flex;flex-direction:column;gap:28px;">
+        <div>
+          <label class="form-label">Fonds / Subsidie *</label>
+          <input class="form-input" name="fonds" placeholder="Naam van het fonds of de subsidieregeling" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Type contact *</label>
+            <select class="form-input" name="typeContact" required>
+              <option value="">Selecteer...</option>
+              <option value="telefonisch">Telefonisch</option>
+              <option value="email">Email</option>
+              <option value="persoonlijk">Persoonlijk gesprek</option>
+              <option value="informatieavond">Informatieavond</option>
+              <option value="anders">Anders</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Type feedback *</label>
+            <select class="form-input" name="typeFeedback" required>
+              <option value="">Selecteer...</option>
+              <option value="afwijzing">Afwijzing</option>
+              <option value="toekenning">Toekenning</option>
+              <option value="informeel">Informeel gesprek</option>
+              <option value="pre-aanvraag">Pre-aanvraag feedback</option>
+              <option value="anders">Anders</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Datum *</label>
+            <input class="form-input" type="date" name="datum" required />
+          </div>
+          <div>
+            <label class="form-label">Kans-inschatting</label>
+            <select class="form-input" name="kansInschatting">
+              <option value="">Selecteer...</option>
+              <option value="hoog">Hoog</option>
+              <option value="middel">Middel</option>
+              <option value="laag">Laag</option>
+              <option value="onbekend">Onbekend</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">Samenvatting *</label>
+          <textarea class="form-input" name="samenvatting" rows="5" placeholder="Beschrijf het gesprek, de feedback, en eventuele vervolgstappen." required></textarea>
+        </div>
+
+        <!-- Dropzone -->
+        <div>
+          <label class="form-label form-label-optional">Bijlagen (optioneel)</label>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="file-input" multiple accept=".pdf,.docx,.xlsx,.pptx,.doc,.xls,.ppt,.txt" style="display:none;" />
+            <p>Sleep bestanden hierheen of klik om te uploaden</p>
+            <p class="hint">PDF, DOCX, XLSX, PPTX — max 10MB per bestand</p>
+          </div>
+          <div id="file-list"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">Verstuur feedback</button>
+        <div class="form-error" id="form-error"></div>
+      </form>
+
+      <div id="submitted" class="submitted" style="display:none;">
+        <h2>Bedankt.</h2>
+        <p>Je feedback is opgeslagen. Dit helpt ons om je volgende aanvraag sterker te maken.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>&copy; 2026 Super Stories &middot; Amsterdam</span>
+    <span>Substance Matters.</span>
+  </footer>
+
+  <script>
+    // Get slug from URL
+    const slug = window.location.pathname.split('/feedback/')[1];
+
+    // ── File upload / dropzone ──
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    let uploadedFiles = [];
+
+    function renderFiles() {
+      fileList.innerHTML = '';
+      uploadedFiles.forEach((file, i) => {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = '<span>' + file.name + '</span><span class="file-remove" data-index="' + i + '">Verwijder</span>';
+        fileList.appendChild(div);
+      });
+      fileList.querySelectorAll('.file-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          uploadedFiles.splice(parseInt(e.target.dataset.index), 1);
+          renderFiles();
+        });
+      });
+    }
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('active'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('active');
+      uploadedFiles.push(...Array.from(e.dataTransfer.files));
+      renderFiles();
+    });
+    fileInput.addEventListener('change', (e) => {
+      uploadedFiles.push(...Array.from(e.target.files));
+      e.target.value = '';
+      renderFiles();
+    });
+
+    // ── Form submission ──
+    document.getElementById('feedback-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const submitBtn = document.getElementById('submit-btn');
+      const errorEl = document.getElementById('form-error');
+
+      errorEl.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verzenden...';
+
+      const formData = new FormData(form);
+      uploadedFiles.forEach(file => {
+        formData.append('bestanden', file);
+      });
+
+      try {
+        const res = await fetch('/api/feedback/' + slug, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Er ging iets mis bij het versturen.');
+        }
+
+        form.style.display = 'none';
+        document.getElementById('submitted').style.display = 'block';
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Verstuur feedback';
+      }
+    });
+  </script>
+
+</body>
+</html>

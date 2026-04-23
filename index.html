@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundfinder bij Super Stories — Subsidie & Funding</title>
+  <meta name="description" content="Fundfinder helpt missiegedreven organisaties met subsidie-matching en aanvragen. Van visie naar plan in één dag. Onderdeel van Super Stories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #ede8df;
+      --accent: #c8b88a;
+      --gray: #6b6560;
+      --light-gray: #9a948d;
+      --dark-gray: #2a2725;
+      --red: #a85751;
+      --green: #7a9a6d;
+      --serif: 'EB Garamond', Georgia, serif;
+      --sans: 'DM Sans', Helvetica, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    ::selection { background: rgba(200, 184, 138, 0.25); color: var(--white); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Fade-in animation ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in[data-delay="1"] { transition-delay: 0.1s; }
+    .fade-in[data-delay="15"] { transition-delay: 0.15s; }
+    .fade-in[data-delay="2"] { transition-delay: 0.2s; }
+    .fade-in[data-delay="25"] { transition-delay: 0.25s; }
+    .fade-in[data-delay="3"] { transition-delay: 0.3s; }
+    .fade-in[data-delay="35"] { transition-delay: 0.35s; }
+    .fade-in[data-delay="4"] { transition-delay: 0.4s; }
+    .fade-in[data-delay="45"] { transition-delay: 0.45s; }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    .nav.scrolled {
+      padding: 12px 32px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom-color: var(--dark-gray);
+    }
+    .nav-brand { display: flex; flex-direction: column; gap: 2px; }
+    .nav-brand-name { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: 0.02em; line-height: 1.2; }
+    .nav-brand-sub { font-family: var(--sans); font-size: 8px; font-weight: 400; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; }
+    .nav-cta { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
+    .nav-cta:hover { color: #d4c69a; border-color: #d4c69a; }
+    .lang-switch { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); cursor: pointer; transition: color 0.2s; background: none; border: none; font-family: var(--sans); padding: 2px 4px; }
+    .lang-switch:hover { color: var(--accent); }
+    .lang-switch.active { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+
+    /* ── Shared ── */
+    .section { padding: 120px 32px; }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+    .section-border { border-top: 1px solid var(--dark-gray); }
+    .section-bg { background: var(--dark-gray); }
+    .label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .heading { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 400; color: var(--white); line-height: 1.25; }
+    .body-text { font-size: 15px; line-height: 1.7; color: var(--light-gray); }
+
+    /* ── Hero ── */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 32px 80px; max-width: 960px; margin: 0 auto; position: relative; }
+    .hero-glow { position: absolute; top: 15%; right: -10%; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(200,184,138,0.12), transparent 70%); filter: blur(80px); pointer-events: none; }
+    .hero h1 { font-family: var(--serif); font-size: clamp(36px, 6vw, 72px); font-weight: 400; color: var(--white); line-height: 1.1; margin-bottom: 40px; max-width: 800px; }
+    .hero h1 span { color: var(--accent); }
+    .hero-intro { font-size: 17px; line-height: 1.7; color: var(--light-gray); max-width: 560px; margin-bottom: 48px; }
+    .hero-buttons { display: flex; gap: 24px; flex-wrap: wrap; }
+    .btn-primary { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--black); background: var(--accent); padding: 14px 32px; display: inline-block; transition: background 0.25s, transform 0.2s; }
+    .btn-primary:hover { background: #d4c69a; transform: translateY(-1px); }
+    .btn-secondary { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(200,184,138,0.25); padding: 14px 32px; display: inline-block; transition: border-color 0.25s, background 0.25s, transform 0.2s; }
+    .btn-secondary:hover { border-color: var(--accent); background: rgba(200,184,138,0.06); transform: translateY(-1px); }
+
+    /* ── Grid cards ── */
+    .card-grid { display: grid; gap: 1px; background: var(--dark-gray); border: 1px solid var(--dark-gray); }
+    .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card { background: var(--black); padding: 32px 24px; }
+    .card-time { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px; }
+    .card h3 { font-family: var(--serif); font-size: 20px; color: var(--white); margin-bottom: 10px; }
+    .card p { font-size: 13px; line-height: 1.6; color: var(--light-gray); }
+
+    /* ── Pricing row ── */
+    .pricing-row { display: flex; gap: 32px; flex-wrap: wrap; align-items: baseline; margin-bottom: 16px; }
+    .price-big { font-family: var(--serif); font-size: 36px; color: var(--white); }
+    .price-big-accent { font-family: var(--serif); font-size: 36px; color: var(--accent); }
+    .price-sub { font-size: 13px; color: var(--gray); margin-left: 8px; }
+    .price-detail { font-size: 13px; color: var(--light-gray); margin-top: 8px; }
+
+    /* ── Terms list ── */
+    .terms-list { margin-top: 32px; max-width: 640px; }
+    .terms-item { padding: 8px 0; font-size: 12px; color: var(--gray); line-height: 1.6; border-bottom: 1px solid rgba(107,101,96,0.08); }
+    .terms-header { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); margin-bottom: 16px; }
+
+    /* ── Pricing box ── */
+    .pricing-box { margin-top: 32px; padding: 28px; border: 1px solid var(--dark-gray); max-width: 640px; }
+    .pricing-box p { font-size: 14px; line-height: 1.7; margin-bottom: 16px; }
+    .pricing-box p:last-child { margin-bottom: 0; color: var(--light-gray); }
+    .pricing-box p:not(:last-child) { color: var(--cream); }
+
+    /* ── What you get ── */
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px; }
+    .list-header { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; }
+    .list-header-green { color: var(--green); }
+    .list-header-red { color: var(--red); }
+    .list-item { padding: 14px 0; border-bottom: 1px solid rgba(107,101,96,0.12); font-size: 14px; line-height: 1.6; }
+    .list-item-yes { color: var(--cream); }
+    .list-item-no { color: var(--light-gray); }
+
+    /* ── Together cards ── */
+    .together-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; background: var(--dark-gray); border: 1px solid var(--dark-gray); }
+
+    /* ── Ongoing ── */
+    .ongoing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: rgba(107,101,96,0.12); border: 1px solid rgba(107,101,96,0.12); }
+    .ongoing-card { background: var(--dark-gray); padding: 36px 28px; }
+    .ongoing-card h3 { font-family: var(--serif); font-size: 22px; color: var(--white); margin-bottom: 8px; }
+    .ongoing-card .price-tag { font-size: 13px; color: var(--accent); display: block; margin-bottom: 20px; }
+    .ongoing-card p { font-size: 14px; line-height: 1.7; color: var(--light-gray); margin-bottom: 12px; }
+    .ongoing-card .note { font-size: 12px; color: var(--gray); font-style: italic; margin-bottom: 0; }
+
+    /* ── Flywheel ── */
+    .flywheel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+    .flywheel-num { font-family: var(--serif); font-size: 48px; color: rgba(200,184,138,0.19); display: block; line-height: 1; margin-bottom: 16px; }
+
+    /* ── Cases ── */
+    .case-row { border-top: 1px solid rgba(107,101,96,0.12); padding: 32px 0; display: grid; grid-template-columns: 180px 1fr auto; gap: 24px; align-items: center; }
+    .case-row h3 { font-family: var(--serif); font-size: 22px; color: var(--white); }
+    .case-row p { font-size: 14px; color: var(--light-gray); line-height: 1.5; }
+    .case-tag { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); white-space: nowrap; border: 1px solid rgba(200,184,138,0.19); padding: 6px 12px; }
+
+    /* ── Form ── */
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 8px; }
+    .form-label-optional { color: var(--gray); }
+    .form-input {
+      width: 100%; padding: 12px 16px;
+      background: var(--dark-gray); border: 1px solid rgba(107,101,96,0.25); color: var(--white);
+      font-family: var(--sans); font-size: 14px; outline: none; border-radius: 0;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--gray); }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--accent); pointer-events: none; }
+    select.form-input { appearance: none; cursor: pointer; padding-right: 40px; }
+    select.form-input option { background: var(--dark-gray); color: var(--white); }
+    textarea.form-input { resize: vertical; }
+
+    /* ── Dropzone ── */
+    .dropzone {
+      border: 2px dashed rgba(107,101,96,0.25); padding: 32px 24px;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .dropzone.active { border-color: var(--accent); background: rgba(200,184,138,0.03); }
+    .dropzone p { font-size: 14px; color: var(--light-gray); margin-bottom: 8px; }
+    .dropzone .hint { font-size: 11px; color: var(--gray); margin-bottom: 0; }
+    .file-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px; background: var(--dark-gray); font-size: 12px; margin-top: 6px;
+    }
+    .file-item span { color: var(--cream); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
+    .file-remove { color: var(--red); cursor: pointer; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; }
+
+    .btn-submit {
+      font-family: var(--sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); background: var(--accent); border: none; padding: 16px 40px;
+      cursor: pointer; margin-top: 16px; transition: background 0.25s, opacity 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background: #d4c69a; transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-divider { border-top: 1px solid var(--dark-gray); padding-top: 28px; margin-top: 8px; }
+    .form-divider p { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 20px; }
+
+    /* ── Submitted ── */
+    .submitted { text-align: center; }
+    .submitted h2 { font-family: var(--serif); font-size: 36px; color: var(--white); margin-bottom: 16px; }
+    .submitted p { font-size: 15px; color: var(--light-gray); line-height: 1.7; }
+
+    /* ── Error message ── */
+    .form-error {
+      background: rgba(168, 87, 81, 0.15); border: 1px solid var(--red);
+      padding: 14px 18px; font-size: 14px; color: var(--red); margin-top: 12px; display: none;
+    }
+
+    /* ── Signature pad ── */
+    .sig-pad-wrap { position: relative; }
+    .sig-pad {
+      width: 100%; height: 120px; background: var(--dark-gray);
+      border: 1px solid rgba(107,101,96,0.25); cursor: crosshair;
+      touch-action: none;
+    }
+    .sig-pad-clear {
+      position: absolute; top: 8px; right: 8px; background: none; border: none;
+      color: var(--gray); font-size: 11px; cursor: pointer; font-family: var(--sans);
+      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .sig-pad-clear:hover { color: var(--red); }
+
+    /* ── FAQ ── */
+    .faq-item { border-bottom: 1px solid rgba(107,101,96,0.15); }
+    .faq-q {
+      padding: 20px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--serif); font-size: 18px; color: var(--white); user-select: none;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-q .faq-arrow { color: var(--accent); font-size: 14px; transition: transform 0.2s; flex-shrink: 0; margin-left: 16px; }
+    .faq-q.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a { padding: 0 0 20px 0; font-size: 14px; line-height: 1.7; color: var(--light-gray); display: none; }
+    .faq-a.open { display: block; }
+    .faq-empty { font-size: 14px; color: var(--gray); font-style: italic; }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 48px 32px; border-top: 1px solid var(--dark-gray);
+      display: flex; justify-content: space-between; align-items: flex-start;
+      max-width: 960px; margin: 0 auto; flex-wrap: wrap; gap: 32px;
+    }
+    .footer span, .footer a { font-size: 11px; color: var(--gray); letter-spacing: 0.05em; line-height: 1.8; display: block; }
+    .footer a { transition: color 0.2s; }
+    .footer a:hover { color: var(--accent); }
+    .footer-info, .footer-brand { display: flex; flex-direction: column; gap: 2px; }
+    .footer-brand { text-align: right; align-items: flex-end; }
+    @media (max-width: 640px) {
+      .footer-brand { text-align: left; align-items: flex-start; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .case-row { grid-template-columns: 1fr; }
+      .card-grid-3 { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .together-grid { grid-template-columns: 1fr; }
+      .flywheel-grid { grid-template-columns: 1fr; }
+      .ongoing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">
+      <span class="nav-brand-name" data-content="nav.brand_name">Fundfinder</span>
+      <span class="nav-brand-sub" data-content="nav.brand_sub">bij Super Stories</span>
+    </div>
+    <div class="nav-right">
+      <a href="#intake" class="nav-cta" data-content="nav.cta">Start hier</a>
+      <a href="#doorlopend" class="nav-cta" data-content="nav.cta_services">Additionele diensten</a>
+      <div>
+        <button class="lang-switch active" data-lang="nl" onclick="switchLang('nl')">NL</button>
+        <span style="color:var(--dark-gray);">/</span>
+        <button class="lang-switch" data-lang="en" onclick="switchLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="fade-in">
+      <p class="label" data-content="hero.label">Subsidie & Funding</p>
+    </div>
+    <div class="fade-in" data-delay="15">
+      <h1 data-content-html="hero"><span data-content="hero.title">Jij hebt de visie.</span><br><span style="color:var(--accent)" data-content="hero.title_highlight">Wij vinden de funding.</span></h1>
+    </div>
+    <div class="fade-in" data-delay="3">
+      <p class="hero-intro" data-content="hero.intro">Fundfinder helpt missiegedreven organisaties met strategische helderheid, subsidie-matching en aanvragen. In één dag van visie naar plan — met een AI-workflow die leidt tot scherpe, specifieke aanvragen. Geen generiek werk.</p>
+    </div>
+    <div class="fade-in" data-delay="45">
+      <div class="hero-buttons">
+        <a href="#pressure-cooker" class="btn-primary" data-content="hero.btn_primary">Hoe het werkt</a>
+        <a href="#intake" class="btn-secondary" data-content="hero.btn_secondary">Direct starten</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESSURE COOKER -->
+  <section id="pressure-cooker" class="section section-border">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="pressure_cooker.label">Pressure Cooker Format</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:700px;margin-bottom:16px;" data-content="pressure_cooker.title">Eén dag. Van visie naar subsidieplan.</h2>
+      </div>
+      <div class="fade-in" data-delay="15">
+        <p class="body-text" style="max-width:560px;margin-bottom:64px;" data-content="pressure_cooker.description">In één werkdag bouwen we een custom AI subsidie finder voor jouw organisatie, scannen het fondslandschap, en schrijven een volledig subsidieplan inclusief begroting. Klaar om in te dienen.</p>
+      </div>
+
+      <div class="card-grid card-grid-3 fade-in" data-delay="2" style="margin-bottom:48px;" id="pc-cards">
+        <div class="card">
+          <span class="card-time" data-content="pressure_cooker.cards.0.time">Ochtend</span>
+          <h3 data-content="pressure_cooker.cards.0.title">Intake & Custom AI</h3>
+          <p data-content="pressure_cooker.cards.0.description">Jouw organisatie, missie en sector — scherp in kaart. We bouwen direct een custom AI subsidie finder die jouw profiel kent.</p>
+        </div>
+        <div class="card">
+          <span class="card-time" data-content="pressure_cooker.cards.1.time">Middag</span>
+          <h3 data-content="pressure_cooker.cards.1.title">Research & Matching</h3>
+          <p data-content="pressure_cooker.cards.1.description">AI-gestuurde scan van het fondslandschap. De drie meest relevante subsidies met matchscore, deadlines en vereisten.</p>
+        </div>
+        <div class="card">
+          <span class="card-time" data-content="pressure_cooker.cards.2.time">Eind van de dag</span>
+          <h3 data-content="pressure_cooker.cards.2.title">Volledig Plan</h3>
+          <p data-content="pressure_cooker.cards.2.description">Subsidieplan op maat: narratief, begroting en route naar indiening. Het enige dat je hierna hoeft te doen is indienen.</p>
+        </div>
+      </div>
+
+      <div class="fade-in" data-delay="3">
+        <div class="pricing-row">
+          <div>
+            <span class="price-big" data-content="pressure_cooker.price_startup">€495</span>
+            <span class="price-sub" data-content="pressure_cooker.price_startup_sub">per dag — startups & culturele sector</span>
+          </div>
+          <div>
+            <span class="price-big" data-content="pressure_cooker.price_regular">€895</span>
+            <span class="price-sub" data-content="pressure_cooker.price_regular_sub">per dag — regulier tarief</span>
+          </div>
+          <div>
+            <span class="price-big-accent" data-content="pressure_cooker.success_fee">9%</span>
+            <span class="price-sub" data-content="pressure_cooker.success_fee_sub">success fee bij toekenning</span>
+          </div>
+        </div>
+        <p class="price-detail" data-content="pressure_cooker.price_detail">Op basis van 2 dagdelen (max. 4 dagdelen)</p>
+      </div>
+
+      <div class="fade-in" data-delay="4">
+        <h3 class="list-header list-header-green" data-content="pressure_cooker.deliverables_header">Dit krijg je</h3>
+        <div id="pc-deliverables">
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.0">Pre research</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.1">Vragenlijst op basis van pre research</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.2">Opzet Talk to the Hand interview</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.3">Analyse interview input</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.4">Bouw custom GPT (eigendom Super Stories, ingezet als intern tool en in online calls met jou)</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.5">Mogelijke fondsen in kaart, gedeeld in een Google Doc</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.6">Keuze aantal aanvragen en welke aanvragen</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.7">Volledig plan inclusief iteraties en aanpassingen</div>
+          <div class="list-item list-item-yes" data-content="pressure_cooker.deliverables.8">1 meeting per aanvraag</div>
+        </div>
+      </div>
+
+      <div class="fade-in" data-delay="5">
+        <div class="terms-list">
+          <h3 class="terms-header" data-content="pressure_cooker.terms_header">Voorwaarden</h3>
+          <div id="pc-terms">
+            <div class="terms-item" data-content="pressure_cooker.terms.0">Betaling volgt na accorderen van het plan, vóór indiening bij het fonds</div>
+            <div class="terms-item" data-content="pressure_cooker.terms.1">Dit tarief geldt voor de eerste aanvraag. Iedere vervolgaanvraag kost 4–8 uur afhankelijk van complexiteit. Een aanvraag in twee delen telt als twee aanvragen</div>
+            <div class="terms-item" data-content="pressure_cooker.terms.2">Alle geleverde informatie wordt vertrouwelijk behandeld — deze opdrachtbevestiging geldt als NDA</div>
+            <div class="terms-item" data-content="pressure_cooker.terms.3">Feedback op jouw aanvraag wordt gedeeld met ons systeem, waardoor het slimmer wordt. Deze kennis komt andere aanvragers geanonimiseerd — en jouw eigen vervolgaanvragen — ten goede</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WAAROM DIT WERKT -->
+  <section class="section section-border">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="waarom.label">Waarom dit werkt</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:700px;margin-bottom:16px;" data-content="waarom.title">Scherp door AI én door diepte.</h2>
+      </div>
+      <div class="fade-in" data-delay="15">
+        <p class="body-text" style="max-width:640px;margin-bottom:64px;" data-content="waarom.description">De pressure cooker werkt omdat we drie dingen combineren die andere bureaus niet combineren. Het resultaat: geen generieke aanvragen, maar scherpe — in een fractie van de tijd en tegen een fractie van de prijs.</p>
+      </div>
+      <div class="card-grid card-grid-3 fade-in" data-delay="2" style="margin-bottom:40px;">
+        <div class="card">
+          <h3 data-content="waarom.cards.0.title">Talk to the Hand</h3>
+          <p data-content="waarom.cards.0.description">Voor we iets schrijven, luisteren we. Talk to the Hand is ons eigen voice-first interviewtool — we horen jouw organisatie in je eigen woorden, niet in een ingevulde template. Daar komen de scherpe passages van de aanvraag vandaan.</p>
+        </div>
+        <div class="card">
+          <h3 data-content="waarom.cards.1.title">AI-subsidiescouting</h3>
+          <p data-content="waarom.cards.1.description">Onze AI-workflow scant het fondslandschap per sector, per fase, per deadline. Waar een traditioneel bureau dagen nodig heeft voor een long-list, doen wij dat in uren — en dieper.</p>
+        </div>
+        <div class="card">
+          <h3 data-content="waarom.cards.2.title">30 jaar domeinkennis</h3>
+          <p data-content="waarom.cards.2.description">30 jaar directe ervaring in drie domeinen: cultuur, B2B (met name textiel & vezels) en mental health. Plus een brede antenne voor innovatie. Dat betekent: jouw verhaal landt bij de juiste fondsen, in de juiste taal.</p>
+        </div>
+      </div>
+      <div class="fade-in" data-delay="3">
+        <p class="price-detail" style="max-width:700px;" data-content="waarom.closing">Dit is waarom we €495–€895 per dag kunnen rekenen in plaats van €2.000–€8.000 per aanvraag. AI geeft leverage. Ervaring geeft scherpte. Substance matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAT JE KRIJGT -->
+  <section class="section section-bg">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="wat_krijgt.label">Wat je krijgt — en wat niet</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:600px;margin-bottom:64px;" data-content="wat_krijgt.title">Helder verwachtingsmanagement.</h2>
+      </div>
+      <div class="two-col">
+        <div class="fade-in" data-delay="15">
+          <h3 class="list-header list-header-green" data-content="wat_krijgt.included_header">✓ Inbegrepen</h3>
+          <div id="included-list">
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.0">Strategische helderheid over je positie en kansen</div>
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.1">Custom AI subsidie finder gebouwd voor jouw organisatie</div>
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.2">Top 3 subsidies gematcht op jouw profiel</div>
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.3">Volledig subsidieplan met narratief en begroting — klaar om in te dienen</div>
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.4">Eerlijk advies over haalbaarheid — ook als dat 'nee' is</div>
+            <div class="list-item list-item-yes" data-content="wat_krijgt.included.5">Eén aanspreekpunt, senior niveau, geen juniors</div>
+          </div>
+        </div>
+        <div class="fade-in" data-delay="25">
+          <h3 class="list-header list-header-red" data-content="wat_krijgt.excluded_header">✕ Niet inbegrepen</h3>
+          <div id="excluded-list">
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.0">Geen prachtig vormgegeven document — inhoud boven opmaak</div>
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.1">Geen eindeloze vergadercycli — we werken in sprints</div>
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.2">Geen garantie op toekenning — wel maximale kans</div>
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.3">Geen uitvoering van je project — wij schrijven, jij doet</div>
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.4">Geen boekhouding of administratieve afhandeling</div>
+            <div class="list-item list-item-no" data-content="wat_krijgt.excluded.5">Geen accountmanagement — je krijgt tools om zelf door te gaan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOGETHER -->
+  <section class="section section-border">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="together.label">We are in this together</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:700px;margin-bottom:32px;" data-content="together.title">Succes bouw je altijd samen.</h2>
+      </div>
+      <div class="fade-in" data-delay="2">
+        <p class="body-text" style="max-width:600px;margin-bottom:48px;" data-content="together.description">Wij leveren het plan, de strategie en de aanvraag. Maar de beste resultaten ontstaan wanneer jij ook aan zet bent. Een goede klant checkt zelf even data met de subsidiërende partij, plant een voorbereidingsgesprek in als dat mogelijk is, en bouwt strategische zichtbaarheid op via LinkedIn of het eigen netwerk.</p>
+      </div>
+      <div class="together-grid fade-in" data-delay="3" id="together-cards">
+        <div class="card">
+          <h3 data-content="together.cards.0.title">Jij levert feedback</h3>
+          <p data-content="together.cards.0.description">Heb je contact met het fonds? Informele feedback vóór indiening is goud waard. Het maakt je aanvraag sterker én ons systeem slimmer.</p>
+        </div>
+        <div class="card">
+          <h3 data-content="together.cards.1.title">Jij bouwt zichtbaarheid</h3>
+          <p data-content="together.cards.1.description">Strategische LinkedIn-content, netwerk activeren, je verhaal vertellen. Fondsen googelen je — zorg dat ze iets vinden.</p>
+        </div>
+        <div class="card">
+          <h3 data-content="together.cards.2.title">Wij leren mee</h3>
+          <p data-content="together.cards.2.description">Elke interactie met een fonds — toekenning, afwijzing, informeel gesprek — gaat terug in je custom AI. De volgende aanvraag is altijd beter.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOORLOPEND -->
+  <section id="doorlopend" class="section section-bg">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="doorlopend.label">Na de pressure cooker</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:700px;margin-bottom:16px;" data-content="doorlopend.title">Fundfinder is onderdeel van Super Stories.</h2>
+      </div>
+      <div class="fade-in" data-delay="15">
+        <p class="body-text" style="max-width:600px;margin-bottom:64px;" data-content="doorlopend.description">Fundfinder richt zich op subsidiescouting en subsidieplannen. Een doorgaande subsidiestrategie vraagt soms om assets of ondersteunende services buiten dit domein — die regelen we vanuit het bredere Super Stories-ecosysteem. Meer weten? <a href="#intake" style="color:var(--accent);border-bottom:1px solid var(--accent);">Let's talk.</a></p>
+      </div>
+      <div class="ongoing-grid" id="doorlopend-cards">
+        <div class="ongoing-card fade-in" data-delay="15">
+          <h3 data-content="doorlopend.cards.0.title">Doorlopende Begeleiding</h3>
+          <span class="price-tag" data-content="doorlopend.cards.0.price">€150/maand</span>
+          <p data-content="doorlopend.cards.0.description">2 uur per maand strategische sparring en review. Additionele uren op regulier tarief: €150/uur.</p>
+          <p class="note" data-content="doorlopend.cards.0.note">Dit model prikkelt efficiëntie aan beide kanten. Jij komt voorbereid, wij leveren maximale waarde per uur.</p>
+        </div>
+        <div class="ongoing-card fade-in" data-delay="25">
+          <h3 data-content="doorlopend.cards.1.title">Iedere Extra Subsidieaanvraag</h3>
+          <span class="price-tag" data-content="doorlopend.cards.1.price">4–8 uur + 9% success fee</span>
+          <p data-content="doorlopend.cards.1.description">Volledige aanvraag inclusief narratief, begroting en bijlagen. Indicatie: 4–8 uur, afhankelijk van complexiteit en altijd in overleg. Success fee alleen bij toekenning.</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VLIEGWIEL -->
+  <section class="section section-border">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="vliegwiel.label">Het vliegwiel</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="max-width:600px;margin-bottom:64px;" data-content="vliegwiel.title">Een systeem dat slimmer wordt met elke aanvraag.</h2>
+      </div>
+      <div class="flywheel-grid" id="vliegwiel-steps">
+        <div class="fade-in" data-delay="15">
+          <span class="flywheel-num" data-content="vliegwiel.steps.0.number">01</span>
+          <h3 style="font-family:var(--serif);font-size:20px;color:var(--white);margin-bottom:12px;" data-content="vliegwiel.steps.0.title">Custom AI</h3>
+          <p style="font-size:14px;line-height:1.7;color:var(--light-gray);" data-content="vliegwiel.steps.0.description">We bouwen een subsidie finder die jouw organisatie, missie en sector kent. Die wordt met elke interactie slimmer.</p>
+        </div>
+        <div class="fade-in" data-delay="25">
+          <span class="flywheel-num" data-content="vliegwiel.steps.1.number">02</span>
+          <h3 style="font-family:var(--serif);font-size:20px;color:var(--white);margin-bottom:12px;" data-content="vliegwiel.steps.1.title">Aanvraag</h3>
+          <p style="font-size:14px;line-height:1.7;color:var(--light-gray);" data-content="vliegwiel.steps.1.description">We schrijven samen de aanvraag — gevoed met patronen uit eerdere trajecten over alle klanten heen.</p>
+        </div>
+        <div class="fade-in" data-delay="35">
+          <span class="flywheel-num" data-content="vliegwiel.steps.2.number">03</span>
+          <h3 style="font-family:var(--serif);font-size:20px;color:var(--white);margin-bottom:12px;" data-content="vliegwiel.steps.2.title">Feedback</h3>
+          <p style="font-size:14px;line-height:1.7;color:var(--light-gray);" data-content="vliegwiel.steps.2.description">Toekenning, afwijzing, of informele feedback van het fonds — alles gaat terug in het systeem.</p>
+        </div>
+        <div class="fade-in" data-delay="45">
+          <span class="flywheel-num" data-content="vliegwiel.steps.3.number">04</span>
+          <h3 style="font-family:var(--serif);font-size:20px;color:var(--white);margin-bottom:12px;" data-content="vliegwiel.steps.3.title">Patroonherkenning</h3>
+          <p style="font-size:14px;line-height:1.7;color:var(--light-gray);" data-content="vliegwiel.steps.3.description">Na elke aanvraag wordt de volgende beter. Per fonds, per sector, per type aanvraag. Dat is ons vliegwiel — en jouw voordeel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section class="section section-bg">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="cases.label">Cases</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="margin-bottom:64px;" data-content="cases.title">Recent werk.</h2>
+      </div>
+      <div id="cases-list">
+        <div class="fade-in" data-delay="2">
+          <div class="case-row">
+            <h3 data-content="cases.items.0.name">HempTex</h3>
+            <p data-content="cases.items.0.description">SEO-strategie & positionering voor Europa's eerste hennepvlaggenmerk</p>
+            <span class="case-tag" data-content="cases.items.0.tag">Strategie + Subsidie</span>
+          </div>
+        </div>
+        <div class="fade-in" data-delay="25">
+          <div class="case-row">
+            <h3 data-content="cases.items.1.name">Lichting 2026</h3>
+            <p data-content="cases.items.1.description">Subsidie-strategie & fondsenaanvragen voor een 20-jarig modeplatform</p>
+            <span class="case-tag" data-content="cases.items.1.tag">Subsidie + Fondsenwerving</span>
+          </div>
+        </div>
+        <div class="fade-in" data-delay="3">
+          <div class="case-row">
+            <h3 data-content="cases.items.2.name">Denim City</h3>
+            <p data-content="cases.items.2.description">Subsidie-strategie voor het House of Denim ecosysteem — Foundation, BV en Jean School</p>
+            <span class="case-tag" data-content="cases.items.2.tag">Subsidie + Strategie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTAKE FORM -->
+  <section id="intake" class="section section-border">
+    <div class="section-inner" style="max-width:640px;">
+      <div class="fade-in"><p class="label" data-content="intake.label">Intake</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="margin-bottom:16px;" data-content="intake.title">Start hier.</h2>
+      </div>
+      <div class="fade-in" data-delay="15">
+        <p class="body-text" style="margin-bottom:48px;" data-content="intake.description">Vul onderstaand formulier in. Hoe completer, hoe effectiever we je intake-uur besteden. We nemen binnen 48 uur contact op.</p>
+      </div>
+
+      <form id="intake-form" class="fade-in" data-delay="2" style="display:flex;flex-direction:column;gap:28px;">
+        <!-- Row 1 -->
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Organisatienaam *</label>
+            <input class="form-input" name="organisatie" placeholder="Naam" required />
+          </div>
+          <div>
+            <label class="form-label form-label-optional">KvK-nummer (optioneel)</label>
+            <input class="form-input" name="kvk" placeholder="12345678" />
+          </div>
+        </div>
+        <!-- Row 2 -->
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Contactpersoon *</label>
+            <input class="form-input" name="contact" placeholder="Naam" required />
+          </div>
+          <div>
+            <label class="form-label">Rol *</label>
+            <input class="form-input" name="rol" placeholder="Oprichter / Directeur / ..." required />
+          </div>
+        </div>
+        <!-- Rechtsvorm -->
+        <div>
+          <label class="form-label form-label-optional">Rechtsvorm (optioneel)</label>
+          <div class="select-wrap">
+            <select class="form-input" name="rechtsvorm">
+              <option value="">Selecteer...</option>
+              <option value="stichting">Stichting</option>
+              <option value="bv">B.V.</option>
+              <option value="vof">V.O.F.</option>
+              <option value="eenmanszaak">Eenmanszaak</option>
+              <option value="combinatie">Combinatie (bv. stichting + BV)</option>
+              <option value="anders">Anders</option>
+            </select>
+          </div>
+        </div>
+        <!-- Wat doe je -->
+        <div>
+          <label class="form-label">Wat doe je in één zin? *</label>
+          <input class="form-input" name="watdoeje" placeholder="Wij maken / organiseren / ontwikkelen..." required />
+        </div>
+        <!-- Project -->
+        <div>
+          <label class="form-label">Waarvoor zoek je funding? *</label>
+          <textarea class="form-input" name="project" rows="4" placeholder="Beschrijf het project of de ambitie waarvoor je subsidie zoekt." required></textarea>
+        </div>
+        <!-- Eerder subsidie -->
+        <div>
+          <label class="form-label form-label-optional">Heb je eerder subsidie aangevraagd? (optioneel)</label>
+          <textarea class="form-input" name="eerdersubsidie" rows="3" placeholder="Zo ja: welke, wanneer, en wat was het resultaat?"></textarea>
+        </div>
+
+        <!-- Optioneel divider -->
+        <div class="form-divider">
+          <p>Optioneel — maar helpt ons enorm</p>
+        </div>
+
+        <!-- Optional Row -->
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label form-label-optional">Gezocht bedrag (indicatie)</label>
+            <input class="form-input" name="bedrag" placeholder="€10.000 – €50.000" />
+          </div>
+          <div>
+            <label class="form-label form-label-optional">Deadline / urgentie</label>
+            <input class="form-input" name="deadline" placeholder="bv. 'deadline 1 april'" />
+          </div>
+        </div>
+        <div>
+          <label class="form-label form-label-optional">Samenwerkingspartners</label>
+          <input class="form-input" name="partners" placeholder="Zijn er partners betrokken bij dit project?" />
+        </div>
+        <div>
+          <label class="form-label form-label-optional">Website</label>
+          <input class="form-input" name="website" placeholder="https://..." />
+        </div>
+
+        <!-- Dropzone -->
+        <div>
+          <label class="form-label form-label-optional">Bestaande documenten, plannen of begrotingen</label>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="file-input" multiple accept=".pdf,.docx,.xlsx,.pptx,.doc,.xls,.ppt,.txt" style="display:none;" />
+            <p>Sleep bestanden hierheen of klik om te uploaden</p>
+            <p class="hint">PDF, DOCX, XLSX, PPTX — max 10MB per bestand</p>
+          </div>
+          <div id="file-list"></div>
+        </div>
+
+        <!-- Signature -->
+        <div>
+          <label class="form-label">Handtekening *</label>
+          <div class="sig-pad-wrap">
+            <canvas class="sig-pad" id="sig-pad"></canvas>
+            <button type="button" class="sig-pad-clear" id="sig-clear">Wissen</button>
+          </div>
+          <input type="hidden" name="handtekening" id="sig-data" />
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">Verstuur intake</button>
+        <div class="form-error" id="form-error"></div>
+      </form>
+
+      <!-- Submitted state (hidden by default) -->
+      <div id="submitted" class="submitted" style="display:none;">
+        <h2 data-content="intake.submitted_title">Ontvangen.</h2>
+        <p data-content="intake.submitted_text">We nemen binnen 48 uur contact op om de pressure cooker in te plannen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-bg" id="faq-section">
+    <div class="section-inner">
+      <div class="fade-in"><p class="label" data-content="faq.label">Veelgestelde vragen</p></div>
+      <div class="fade-in" data-delay="1">
+        <h2 class="heading" style="margin-bottom:48px;" data-content="faq.title">FAQ</h2>
+      </div>
+      <div id="faq-list" class="fade-in" data-delay="2">
+        <p class="faq-empty" id="faq-empty">Binnenkort vullen we hier de meest gestelde vragen aan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-info">
+      <span data-content="footer.company">Super Stories BV</span>
+      <span data-content="footer.address">Wagenstraat 4 · 1017 CZ Amsterdam</span>
+      <span data-content="footer.kvk">KvK 62609815</span>
+      <span data-content="footer.vat">BTW NL854886138B01</span>
+      <a href="mailto:peter@superstories.com" data-content="footer.email">peter@superstories.com</a>
+    </div>
+    <div class="footer-brand">
+      <span data-content="footer.copyright">© 2026 Super Stories</span>
+      <span data-content="footer.tagline">Substance Matters.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll-aware nav ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Fade-in observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── File upload / dropzone ──
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    let uploadedFiles = [];
+
+    function renderFiles() {
+      fileList.innerHTML = '';
+      uploadedFiles.forEach((file, i) => {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = '<span>' + file.name + '</span><span class="file-remove" data-index="' + i + '">Verwijder</span>';
+        fileList.appendChild(div);
+      });
+      fileList.querySelectorAll('.file-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          uploadedFiles.splice(parseInt(e.target.dataset.index), 1);
+          renderFiles();
+        });
+      });
+    }
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('active'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('active');
+      uploadedFiles.push(...Array.from(e.dataTransfer.files));
+      renderFiles();
+    });
+    fileInput.addEventListener('change', (e) => {
+      uploadedFiles.push(...Array.from(e.target.files));
+      e.target.value = '';
+      renderFiles();
+    });
+
+    // ── Content hydration & language ──
+    let currentLang = localStorage.getItem('lang') || 'nl';
+
+    function resolve(obj, path) {
+      return path.split('.').reduce((o, k) => (o && o[k] !== undefined) ? o[k] : undefined, obj);
+    }
+
+    async function loadContent(lang) {
+      try {
+        const res = await fetch('/api/content?lang=' + lang);
+        if (!res.ok) return;
+        const content = await res.json();
+        document.querySelectorAll('[data-content]').forEach(el => {
+          const val = resolve(content, el.getAttribute('data-content'));
+          if (val !== undefined) el.textContent = val;
+        });
+        renderFaq(content.faq);
+      } catch (e) { /* fallback: keep hardcoded text */ }
+    }
+
+    function switchLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('.lang-switch').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+      loadContent(lang);
+    }
+
+    // Init language on load
+    (function() {
+      document.querySelectorAll('.lang-switch').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
+      });
+      loadContent(currentLang);
+    })();
+
+    // ── FAQ rendering ──
+    function renderFaq(faq) {
+      const list = document.getElementById('faq-list');
+      const empty = document.getElementById('faq-empty');
+      if (!faq || !faq.items || faq.items.length === 0) {
+        list.innerHTML = '';
+        list.appendChild(empty);
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      list.innerHTML = '';
+      faq.items.forEach(function(item) {
+        const div = document.createElement('div');
+        div.className = 'faq-item';
+        const q = document.createElement('div');
+        q.className = 'faq-q';
+        q.innerHTML = '<span>' + item.question + '</span><span class="faq-arrow">&#9660;</span>';
+        const a = document.createElement('div');
+        a.className = 'faq-a';
+        a.textContent = item.answer;
+        q.addEventListener('click', function() {
+          q.classList.toggle('open');
+          a.classList.toggle('open');
+        });
+        div.appendChild(q);
+        div.appendChild(a);
+        list.appendChild(div);
+      });
+    }
+
+    // ── Signature pad ──
+    (function() {
+      const canvas = document.getElementById('sig-pad');
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let hasSignature = false;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        ctx.strokeStyle = '#f5f2ed';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const t = e.touches ? e.touches[0] : e;
+        return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+      }
+
+      canvas.addEventListener('mousedown', function(e) { drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); });
+      canvas.addEventListener('mousemove', function(e) { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSignature = true; });
+      canvas.addEventListener('mouseup', function() { drawing = false; });
+      canvas.addEventListener('mouseleave', function() { drawing = false; });
+
+      canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }, { passive: false });
+      canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSignature = true; }, { passive: false });
+      canvas.addEventListener('touchend', function() { drawing = false; });
+
+      document.getElementById('sig-clear').addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hasSignature = false;
+        document.getElementById('sig-data').value = '';
+      });
+
+      // Export signature before form submit
+      document.getElementById('intake-form').addEventListener('submit', function() {
+        if (hasSignature) {
+          document.getElementById('sig-data').value = canvas.toDataURL('image/png');
+        }
+      }, true);
+    })();
+
+    // ── Form submission ──
+    document.getElementById('intake-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const submitBtn = document.getElementById('submit-btn');
+      const errorEl = document.getElementById('form-error');
+
+      errorEl.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verzenden...';
+
+      const formData = new FormData(form);
+      uploadedFiles.forEach(file => {
+        formData.append('bestanden', file);
+      });
+
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Er ging iets mis bij het versturen.');
+        }
+
+        form.style.display = 'none';
+        document.getElementById('submitted').style.display = 'block';
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Verstuur intake';
+      }
+    });
+  </script>
+
+</body>
+</html>

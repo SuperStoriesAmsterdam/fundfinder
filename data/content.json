@@ -1,0 +1,207 @@
+{
+  "nav": {
+    "brand_name": "Fundfinder",
+    "brand_sub": "bij Super Stories",
+    "cta_services": "Additionele diensten",
+    "cta": "Start hier"
+  },
+  "hero": {
+    "label": "Subsidie & Funding",
+    "title": "Jij hebt de visie.",
+    "title_highlight": "Wij vinden de funding.",
+    "intro": "Fundfinder helpt missiegedreven organisaties met strategische helderheid, subsidie-matching en aanvragen. In één dag van visie naar plan — met een AI-workflow die leidt tot scherpe, specifieke aanvragen. Geen generiek werk.",
+    "btn_primary": "Hoe het werkt",
+    "btn_secondary": "Direct starten"
+  },
+  "pressure_cooker": {
+    "label": "Pressure Cooker Format",
+    "title": "Eén dag. Van visie naar subsidieplan.",
+    "description": "In één werkdag bouwen we een custom AI subsidie finder voor jouw organisatie, scannen het fondslandschap, en schrijven een volledig subsidieplan inclusief begroting. Klaar om in te dienen.",
+    "cards": [
+      {
+        "time": "Ochtend",
+        "title": "Intake & Custom AI",
+        "description": "Jouw organisatie, missie en sector — scherp in kaart. We bouwen -op basis van door jou gedeelde input- een custom AI subsidie finder die jouw verhaal en profiel kent."
+      },
+      {
+        "time": "Ochtend",
+        "title": "Research & Matching",
+        "description": "AI-gestuurde scan van het fondslandschap. De drie meest relevante subsidies met matchscore, deadlines en vereisten."
+      },
+      {
+        "time": "Middag",
+        "title": "Volledig Plan",
+        "description": "Subsidieplan op maat: narratief, begroting en route naar indiening. Je ontvangt V1 via een google doc en deelt input vervolgens via ons Talk to the Hand tool. Aan het einde van de middag ontvang je V2. Het enige dat je hierna hoeft te doen is indienen."
+      }
+    ],
+    "price_startup": "€495",
+    "price_startup_sub": "per dag — startups & culturele sector",
+    "price_regular": "€895",
+    "price_regular_sub": "per dag — regulier tarief",
+    "price_detail": "Op basis van 2 dagdelen (max. 4 dagdelen)",
+    "success_fee": "9%",
+    "success_fee_sub": "success fee bij toekenning",
+    "deliverables_header": "Dit krijg je",
+    "deliverables": [
+      "Pre research",
+      "Vragenlijst op basis van pre research",
+      "Opzet Talk to the Hand interview",
+      "Analyse interview input",
+      "Bouw custom GPT (eigendom Super Stories, ingezet als intern tool en in online calls met jou)",
+      "Mogelijke fondsen in kaart, gedeeld in een Google Doc",
+      "Keuze aantal aanvragen en welke aanvragen",
+      "Volledig plan inclusief iteraties en aanpassingen",
+      "1 meeting per aanvraag"
+    ],
+    "terms_header": "Voorwaarden",
+    "terms": [
+      "Betaling volgt na accorderen van het plan, vóór indiening bij het fonds",
+      "Dit tarief geldt voor de eerste aanvraag. Iedere vervolgaanvraag kost 4–8 uur afhankelijk van complexiteit. Een aanvraag in twee delen telt als twee aanvragen",
+      "Alle geleverde informatie wordt vertrouwelijk behandeld — deze opdrachtbevestiging geldt als NDA",
+      "Feedback op jouw aanvraag wordt gedeeld met ons systeem, waardoor het slimmer wordt. Deze kennis komt andere aanvragers geanonimiseerd — en jouw eigen vervolgaanvragen — ten goede"
+    ]
+  },
+  "waarom": {
+    "label": "Waarom dit werkt",
+    "title": "Scherp door AI én door diepte.",
+    "description": "De pressure cooker werkt omdat we drie dingen combineren die andere bureaus niet combineren. Het resultaat: geen generieke aanvragen, maar scherpe — in een fractie van de tijd en tegen een fractie van de prijs.",
+    "cards": [
+      {
+        "title": "Talk to the Hand",
+        "description": "Voor we iets schrijven, luisteren we. Talk to the Hand is ons eigen voice-first interviewtool — we horen jouw organisatie in je eigen woorden, niet in een ingevulde template. Daar komen de scherpe passages van de aanvraag vandaan."
+      },
+      {
+        "title": "AI-subsidiescouting",
+        "description": "Onze AI-workflow scant het fondslandschap per sector, per fase, per deadline. Waar een traditioneel bureau dagen nodig heeft voor een long-list, doen wij dat in uren — en dieper."
+      },
+      {
+        "title": "30 jaar domeinkennis",
+        "description": "30 jaar directe ervaring in drie domeinen: cultuur, B2B (met name textiel & vezels) en mental health. Plus een brede antenne voor innovatie. Dat betekent: jouw verhaal landt bij de juiste fondsen, in de juiste taal."
+      }
+    ],
+    "closing": "Dit is waarom we €495–€895 per dag kunnen rekenen in plaats van €2.000–€8.000 per aanvraag. AI geeft leverage. Ervaring geeft scherpte. Substance matters."
+  },
+  "wat_krijgt": {
+    "label": "Wat je krijgt — en wat niet",
+    "title": "Helder verwachtingsmanagement.",
+    "included_header": "✓ Inbegrepen",
+    "included": [
+      "Strategische helderheid over je positie en kansen",
+      "Custom AI subsidie finder gebouwd voor jouw organisatie",
+      "Top 3 subsidies gematcht op jouw profiel",
+      "Volledig subsidieplan met narratief en begroting — klaar om in te dienen",
+      "Eerlijk advies over haalbaarheid — ook als dat 'nee' is",
+      "Eén aanspreekpunt, senior niveau, geen juniors"
+    ],
+    "excluded_header": "✕ Niet inbegrepen",
+    "excluded": [
+      "Geen prachtig vormgegeven document — inhoud boven opmaak",
+      "Geen eindeloze vergadercycli — we werken in sprints",
+      "Geen garantie op toekenning — wel maximale kans",
+      "Geen uitvoering van je project — wij schrijven, jij doet",
+      "Geen boekhouding of administratieve afhandeling",
+      "Geen accountmanagement — je krijgt tools om zelf door te gaan"
+    ]
+  },
+  "together": {
+    "label": "We are in this together",
+    "title": "Succes bouw je altijd samen.",
+    "description": "Wij leveren het plan, de strategie en de aanvraag. Maar de beste resultaten ontstaan wanneer jij ook aan zet bent. Een goede klant checkt zelf even data met de subsidiërende partij, plant een voorbereidingsgesprek in als dat mogelijk is, en bouwt strategische zichtbaarheid op via LinkedIn of het eigen netwerk.",
+    "cards": [
+      {
+        "title": "Jij levert feedback",
+        "description": "Heb je contact met het fonds? Informele feedback vóór indiening is goud waard. Het maakt je aanvraag sterker én ons systeem slimmer."
+      },
+      {
+        "title": "Jij bouwt zichtbaarheid",
+        "description": "Strategische LinkedIn-content, netwerk activeren, je verhaal vertellen. Fondsen googelen je — zorg dat ze iets vinden."
+      },
+      {
+        "title": "Wij leren mee",
+        "description": "Elke interactie met een fonds — toekenning, afwijzing, informeel gesprek — gaat terug in je custom AI. De volgende aanvraag is altijd beter."
+      }
+    ]
+  },
+  "doorlopend": {
+    "label": "Na de pressure cooker",
+    "title": "Fundfinder is onderdeel van Super Stories.",
+    "description": "Fundfinder richt zich op subsidiescouting en subsidieplannen. Een doorgaande subsidiestrategie vraagt soms om assets of ondersteunende services buiten dit domein — die regelen we vanuit het bredere Super Stories-ecosysteem. Meer weten? Let's talk.",
+    "cards": [
+      {
+        "title": "Doorlopende Begeleiding",
+        "price": "€150/maand",
+        "description": "2 uur per maand strategische sparring en review. Additionele uren op regulier tarief: €150/uur.",
+        "note": "Dit model prikkelt efficiëntie aan beide kanten. Jij komt voorbereid, wij leveren maximale waarde per uur."
+      },
+      {
+        "title": "Iedere Extra Subsidieaanvraag",
+        "price": "4–8 uur + 9% success fee",
+        "description": "Volledige aanvraag inclusief narratief, begroting en bijlagen. Indicatie: 4–8 uur, afhankelijk van complexiteit en altijd in overleg. Success fee alleen bij toekenning.",
+        "note": ""
+      }
+    ]
+  },
+  "vliegwiel": {
+    "label": "Het vliegwiel",
+    "title": "Een systeem dat slimmer wordt met elke aanvraag.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Custom AI",
+        "description": "We bouwen een subsidie finder die jouw organisatie, missie en sector kent. Die wordt met elke interactie slimmer."
+      },
+      {
+        "number": "02",
+        "title": "Aanvraag",
+        "description": "We schrijven samen de aanvraag — gevoed met patronen uit eerdere trajecten over alle klanten heen."
+      },
+      {
+        "number": "03",
+        "title": "Feedback",
+        "description": "Toekenning, afwijzing, of informele feedback van het fonds — alles gaat terug in het systeem."
+      },
+      {
+        "number": "04",
+        "title": "Patroonherkenning",
+        "description": "Na elke aanvraag wordt de volgende beter. Per fonds, per sector, per type aanvraag. Dat is ons vliegwiel — en jouw voordeel."
+      }
+    ]
+  },
+  "cases": {
+    "label": "Cases",
+    "title": "Recent werk.",
+    "items": [
+      {
+        "name": "Lichting 2026",
+        "description": "Subsidie-strategie & fondsenaanvragen voor een 20-jarig modeplatform",
+        "tag": "Subsidie / Fondsenwerving"
+      },
+      {
+        "name": "Denim City",
+        "description": "Subsidie-strategie / Fondsenwerving voor het House of Denim ecosysteem — Foundation en BV",
+        "tag": "Subsidie + Strategie"
+      }
+    ]
+  },
+  "intake": {
+    "label": "Intake",
+    "title": "Start hier.",
+    "description": "Vul onderstaand formulier in. Hoe completer, hoe beter we ons kunnen voorbereiden op je pressure cooker. We reageren binnen 48 uur per mail.",
+    "submitted_title": "Ontvangen.",
+    "submitted_text": "We sturen je binnen 48 uur een mailtje om de pressure cooker in te plannen."
+  },
+  "faq": {
+    "label": "Veelgestelde vragen",
+    "title": "FAQ",
+    "items": []
+  },
+  "footer": {
+    "tagline": "Substance Matters.",
+    "company": "Super Stories BV",
+    "address": "Wagenstraat 4 · 1017 CZ Amsterdam",
+    "kvk": "KvK 62609815",
+    "vat": "BTW NL854886138B01",
+    "email": "peter@superstories.com",
+    "copyright": "© 2026 Super Stories"
+  }
+}

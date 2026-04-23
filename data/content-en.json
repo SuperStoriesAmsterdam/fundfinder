@@ -1,0 +1,207 @@
+{
+  "nav": {
+    "brand_name": "Fundfinder",
+    "brand_sub": "by Super Stories",
+    "cta_services": "Additional services",
+    "cta": "Get started"
+  },
+  "hero": {
+    "label": "Grants & Funding",
+    "title": "You have the vision.",
+    "title_highlight": "We find the funding.",
+    "intro": "Fundfinder helps mission-driven organisations with strategic clarity, grant matching and applications. From vision to plan in one day — with an AI workflow that produces sharp, specific applications. Not generic work.",
+    "btn_primary": "How it works",
+    "btn_secondary": "Start now"
+  },
+  "pressure_cooker": {
+    "label": "Pressure Cooker Format",
+    "title": "One day. From vision to grant plan.",
+    "description": "In a single working day we build a custom AI grant finder for your organisation, scan the funding landscape, and write a complete grant plan including budget. Ready to submit.",
+    "cards": [
+      {
+        "time": "Morning",
+        "title": "Intake & Custom AI",
+        "description": "Your organisation, mission and sector — mapped out sharply. We immediately build a custom AI grant finder that knows your profile."
+      },
+      {
+        "time": "Afternoon",
+        "title": "Research & Matching",
+        "description": "AI-powered scan of the funding landscape. The three most relevant grants with match scores, deadlines and requirements."
+      },
+      {
+        "time": "End of day",
+        "title": "Complete Plan",
+        "description": "Tailored grant plan: narrative, budget and path to submission. The only thing left to do afterwards is submit."
+      }
+    ],
+    "price_startup": "€495",
+    "price_startup_sub": "per day — startups & cultural sector",
+    "price_regular": "€895",
+    "price_regular_sub": "per day — regular rate",
+    "price_detail": "Based on 2 half-days (max. 4 half-days)",
+    "success_fee": "9%",
+    "success_fee_sub": "success fee upon award",
+    "deliverables_header": "What you get",
+    "deliverables": [
+      "Pre research",
+      "Questionnaire based on pre research",
+      "Talk to the Hand interview setup",
+      "Interview input analysis",
+      "Custom GPT build (owned by Super Stories, used as internal tool and in online calls with you)",
+      "Potential funds mapped out, shared in a Google Doc",
+      "Selection of number and type of applications",
+      "Complete plan including iterations and adjustments",
+      "1 meeting per application"
+    ],
+    "terms_header": "Terms",
+    "terms": [
+      "Payment follows after approval of the plan, before submission to the fund",
+      "This rate applies to the first application. Each subsequent application costs 4–8 hours depending on complexity. An application in two parts counts as two applications",
+      "All information provided is treated confidentially — this engagement confirmation serves as NDA",
+      "Feedback on your application is shared with our system, making it smarter. This knowledge benefits other applicants anonymously — and your own subsequent applications"
+    ]
+  },
+  "waarom": {
+    "label": "Why this works",
+    "title": "Sharp through AI and depth.",
+    "description": "The pressure cooker works because we combine three things other agencies don't. The result: not generic applications, but sharp ones — in a fraction of the time and at a fraction of the price.",
+    "cards": [
+      {
+        "title": "Talk to the Hand",
+        "description": "Before we write anything, we listen. Talk to the Hand is our own voice-first interview tool — we hear your organisation in your own words, not through a filled-in template. That's where the sharpest passages of the application come from."
+      },
+      {
+        "title": "AI-driven fund scouting",
+        "description": "Our AI workflow scans the funding landscape by sector, stage and deadline. Where a traditional agency needs days for a long-list, we do it in hours — and deeper."
+      },
+      {
+        "title": "30 years of domain expertise",
+        "description": "30 years of direct experience in three domains: culture, B2B (especially textiles & fibres) and mental health. Plus a broad antenna for innovation. That means: your story lands with the right funds, in the right language."
+      }
+    ],
+    "closing": "This is why we can charge €495–€895 per day instead of €2,000–€8,000 per application. AI gives leverage. Experience gives sharpness. Substance matters."
+  },
+  "wat_krijgt": {
+    "label": "What you get — and what you don't",
+    "title": "Clear expectation management.",
+    "included_header": "✓ Included",
+    "included": [
+      "Strategic clarity about your position and opportunities",
+      "Custom AI grant finder built for your organisation",
+      "Top 3 grants matched to your profile",
+      "Complete grant plan with narrative and budget — ready to submit",
+      "Honest advice on feasibility — even if that means 'no'",
+      "One point of contact, senior level, no juniors"
+    ],
+    "excluded_header": "✕ Not included",
+    "excluded": [
+      "No beautifully designed document — substance over styling",
+      "No endless meeting cycles — we work in sprints",
+      "No guarantee of award — but maximum chance",
+      "No execution of your project — we write, you do",
+      "No bookkeeping or administrative handling",
+      "No account management — you get tools to continue on your own"
+    ]
+  },
+  "together": {
+    "label": "We are in this together",
+    "title": "Success is always built together.",
+    "description": "We deliver the plan, the strategy and the application. But the best results come when you're also in the game. A good client checks data directly with the funding body, schedules a preparatory meeting when possible, and builds strategic visibility through LinkedIn or their own network.",
+    "cards": [
+      {
+        "title": "You provide feedback",
+        "description": "In contact with the fund? Informal feedback before submission is worth its weight in gold. It makes your application stronger and our system smarter."
+      },
+      {
+        "title": "You build visibility",
+        "description": "Strategic LinkedIn content, activate your network, tell your story. Funds google you — make sure they find something."
+      },
+      {
+        "title": "We learn along",
+        "description": "Every interaction with a fund — award, rejection, informal conversation — feeds back into your custom AI. The next application is always better."
+      }
+    ]
+  },
+  "doorlopend": {
+    "label": "After the pressure cooker",
+    "title": "Fundfinder is part of Super Stories.",
+    "description": "Fundfinder focuses on grant scouting and grant plans. An ongoing grant strategy sometimes requires assets or supporting services outside this scope — we arrange those through the broader Super Stories ecosystem. Want to know more? Let's talk.",
+    "cards": [
+      {
+        "title": "Ongoing Support",
+        "price": "€150/month",
+        "description": "2 hours per month of strategic sparring and review. Additional hours at standard rate: €150/hour.",
+        "note": "This model incentivises efficiency on both sides. You come prepared, we deliver maximum value per hour."
+      },
+      {
+        "title": "Every Additional Grant Application",
+        "price": "4–8 hours + 9% success fee",
+        "description": "Complete application including narrative, budget and appendices. Estimated: 4–8 hours, depending on complexity and always in consultation. Success fee only upon award.",
+        "note": ""
+      }
+    ]
+  },
+  "vliegwiel": {
+    "label": "The flywheel",
+    "title": "A system that gets smarter with every application.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Custom AI",
+        "description": "We build a grant finder that knows your organisation, mission and sector. It gets smarter with every interaction."
+      },
+      {
+        "number": "02",
+        "title": "Application",
+        "description": "We write the application together — informed by patterns from previous trajectories across all clients."
+      },
+      {
+        "number": "03",
+        "title": "Feedback",
+        "description": "Award, rejection, or informal feedback from the fund — everything feeds back into the system."
+      },
+      {
+        "number": "04",
+        "title": "Pattern recognition",
+        "description": "After every application, the next one gets better. Per fund, per sector, per application type. That's our flywheel — and your advantage."
+      }
+    ]
+  },
+  "cases": {
+    "label": "Cases",
+    "title": "Recent work.",
+    "items": [
+      {
+        "name": "Lichting 2026",
+        "description": "Grant strategy & fund applications for a 20-year fashion platform",
+        "tag": "Grants + Fundraising"
+      },
+      {
+        "name": "Denim City",
+        "description": "Grant strategy for the House of Denim ecosystem — Foundation and BV",
+        "tag": "Grants + Strategy"
+      }
+    ]
+  },
+  "intake": {
+    "label": "Intake",
+    "title": "Start here.",
+    "description": "Fill in the form below. The more complete, the better we can prepare for your pressure cooker. We'll reply within 48 hours by email.",
+    "submitted_title": "Received.",
+    "submitted_text": "We'll send you an email within 48 hours to schedule the pressure cooker."
+  },
+  "faq": {
+    "label": "Frequently asked questions",
+    "title": "FAQ",
+    "items": []
+  },
+  "footer": {
+    "tagline": "Substance Matters.",
+    "company": "Super Stories BV",
+    "address": "Wagenstraat 4 · 1017 CZ Amsterdam",
+    "kvk": "KvK 62609815",
+    "vat": "VAT NL854886138B01",
+    "email": "peter@superstories.com",
+    "copyright": "© 2026 Super Stories"
+  }
+}
