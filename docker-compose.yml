@@ -6,6 +6,7 @@ services:
     volumes:
       - ./data:/app/data
       - ./uploads:/app/uploads
-    env_file:
-      - .env
+    environment:
+      - PORT=${PORT:-3000}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     restart: unless-stopped
