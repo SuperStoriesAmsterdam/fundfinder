@@ -1,8 +1,8 @@
 services:
   app:
     build: .
-    expose:
-      - "3000"
+    ports:
+      - "5000:3000"
     volumes:
       - ./data:/app/data
       - ./uploads:/app/uploads
